@@ -36,7 +36,7 @@ _
         package
             App::perlmv::code;
 
-        use vars qw($ARGS $TESTING $i);
+        use vars qw($ARGS $FILES $TESTING $i);
 
         $ARGS //= {};
         my $digits = $ARGS->{digits} // (@$FILES >= 1000 ? 4 : @$FILES >= 100 ? 3 : @$FILES >= 10 ? 2 : 1);
@@ -68,7 +68,7 @@ The default is sorted ascibetically:
 
 Don't sort (C<-T> perlmv option), use two digits:
 
- % perlmv prefix-with-number foo bar.txt baz.mp3
+ % perlmv prefix-with-number -T -a digits=2 foo bar.txt baz.mp3
 
  01-foo
  02-bar.txt
