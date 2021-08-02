@@ -2,3 +2,4 @@ App-perlmv-scriptlet-prefix_with_number-*
 .build
 *~
 nytprof*
+.DS_Store
