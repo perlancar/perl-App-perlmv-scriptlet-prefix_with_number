@@ -4,6 +4,8 @@ use 5.010001;
 use strict;
 use warnings;
 
+use POSIX ();
+
 # AUTHORITY
 # DATE
 # DIST
@@ -23,12 +25,12 @@ _
         },
         start => {
             summary => 'Number to start from',
-            schema => 'int*',
+            schema => 'float*',
             default => 1,
         },
         inc => {
             summary => 'Increment from one number to the next',
-            schema => 'int*',
+            schema => 'float*',
             default => 1,
         },
     },
@@ -38,10 +40,18 @@ _
 
         use vars qw($ARGS $FILES $TESTING $i);
 
-        $ARGS //= {};
-        my $digits = $ARGS->{digits} // (@$FILES >= 1000 ? 4 : @$FILES >= 100 ? 3 : @$FILES >= 10 ? 2 : 1);
         my $start  = $ARGS->{start} // 1;
         my $inc = $ARGS->{inc} // 1;
+
+        my $auto_digits;
+        {
+            my $largest_number = $start + (@$FILES-1)*$inc;
+            $largest_number = 1 if $largest_number <= 0;
+            $auto_digits = POSIX::ceil(log($largest_number)/log(10));
+        }
+
+        $ARGS //= {};
+        my $digits = $ARGS->{digits} // $auto_digits;
 
         $i //= 0;
         $i++ unless $TESTING;
