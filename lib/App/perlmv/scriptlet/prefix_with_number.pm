@@ -1,13 +1,13 @@
 package App::perlmv::scriptlet::prefix_with_number;
 
+use 5.010001;
+use strict;
+use warnings;
+
 # AUTHORITY
 # DATE
 # DIST
 # VERSION
-
-use 5.010001;
-use strict;
-use warnings;
 
 our $SCRIPTLET = {
     summary => 'Prefix filenames with number (usually to make them easily sortable)',
@@ -26,8 +26,8 @@ _
             schema => 'int*',
             default => 1,
         },
-        interval => {
-            summary => 'Interval from one number to the next',
+        inc => {
+            summary => 'Increment from one number to the next',
             schema => 'int*',
             default => 1,
         },
@@ -41,12 +41,12 @@ _
         $ARGS //= {};
         my $digits = $ARGS->{digits} // (@$FILES >= 1000 ? 4 : @$FILES >= 100 ? 3 : @$FILES >= 10 ? 2 : 1);
         my $start  = $ARGS->{start} // 1;
-        my $interval = $ARGS->{interval} // 1;
+        my $inc = $ARGS->{inc} // 1;
 
         $i //= 0;
         $i++ unless $TESTING;
 
-        my $num  = $start + ($i-1)*$interval;
+        my $num  = $start + ($i-1)*$inc;
         my $fnum = sprintf("%0${digits}d", $num);
         "$fnum-$_";
     },
